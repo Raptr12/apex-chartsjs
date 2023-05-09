@@ -209,6 +209,24 @@ function App() {
       }
     },
   })
+  // In this section i tried applyin the method .toLocaleString() after I
+  // received the series and then apply it into the array but for some reason
+  // the returned value "val" in the array did not recieved any formatter.
+  //
+  //
+  // const seriesWithLocale = state1.series.map(obj => ({
+  //   ...obj, data: obj.data.map(val => {
+  //     if (val >= 1000000) {
+  //       return (val / 1000000).toLocaleString("en-US")+ " M";
+  //     } 
+  //     else if (val >= 1000) {
+  //       return (val / 1000).toLocaleString("en-US")+ " K";
+  //     } 
+  //     else {
+  //       return val.toLocaleString("en-US");
+  //     }
+  //   })
+  // }));
   const [state2] = useState({
     series: [{
       data: [2940000, 1382000, 1236000, 860124, 561252, 548149, 465394, 370991, 239980, 231207, 203921, 196679, 186292,  140736, 132049]
@@ -223,7 +241,7 @@ function App() {
       },
       plotOptions: {
         bar: {
-          columnWidth: '60%',
+          columnWidth: '70%',
           barHeight: '100%',
           distributed: true,
           horizontal: false,
@@ -336,24 +354,87 @@ function App() {
       }
     },
   })
-  // In this section i tried applyin the method .toLocaleString() after I
-  // received the series and then apply it into the array but for some reason
-  // the returned value "val" in the array did not recieved any formatter.
-  //
-  //
-  // const seriesWithLocale = state1.series.map(obj => ({
-  //   ...obj, data: obj.data.map(val => {
-  //     if (val >= 1000000) {
-  //       return (val / 1000000).toLocaleString("en-US")+ " M";
-  //     } 
-  //     else if (val >= 1000) {
-  //       return (val / 1000).toLocaleString("en-US")+ " K";
-  //     } 
-  //     else {
-  //       return val.toLocaleString("en-US");
-  //     }
-  //   })
-  // }));
+  const [state3] = useState({
+    series: [{
+      name: "Fan Curve Point",
+      data: [[30, 35], [47, 50], [62, 60], [75, 80], [90, 100], [105, 100]]
+  }],
+  options: {
+    chart: {
+      height: 350,
+      type: 'area',
+      zoom: {
+        enabled: false
+      },
+      background: '#19294D',
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'straight'
+    },
+    markers: {
+      size: 5,
+      hover: {
+        size: 9
+      }
+    },
+    title: {
+      text: 'PC Fan Speed vs Temperature',
+      align: 'center',
+      style: {
+        color: '#FFFFFF',
+      },  
+    },
+    grid: {
+      row: {
+        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+        opacity: 0.5
+      },
+    },
+    xaxis: {
+      title: {
+        text: 'Temperature',
+        style: {
+          color: '#FFFFFF',
+        },
+      },
+      labels: {
+        style: {
+          color: ['#FFFFFF']
+        },
+      },
+      forceNiceScale: true,
+      max: 110,
+      min: 0,
+    },
+    yaxis: {
+      title: {
+        text: 'Fan Speed',
+        style: {
+          color: '#FFFFFF',
+        },
+      },
+      labels: {
+        style: {
+          color: ['#FFFFFF']
+        },
+      },
+      axisBorder: {
+          show: true,
+          color: '##F1F1F1',
+          offsetX: 0,
+          offsetY: 0
+      },
+      categories: ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
+      forceNiceScale: true,
+      max: 100,
+      min: 0,
+    }
+  },
+});
+
 
   return (
     <div className="App">
@@ -373,7 +454,7 @@ function App() {
         options={state1.options} 
         series={state1.series} 
         type="bar" 
-        height={500}
+        height={600}
         width={950}/>
         <br/>
         <br/>
@@ -381,6 +462,14 @@ function App() {
         options={state2.options} 
         series={state2.series} 
         type="bar" 
+        height={500}
+        width={950}/>
+        <br/>
+        <br/>
+        <ReactApexChart 
+        options={state3.options} 
+        series={state3.series} 
+        type="area" 
         height={500}
         width={950}/>
       </div>
