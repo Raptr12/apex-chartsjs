@@ -1,8 +1,50 @@
 import './App.css';
-import ReactApexChart from 'react-apexcharts'
-import React, { useState } from 'react';
+import ReactApexChart from 'react-apexcharts';
+import Chart from 'react-apexcharts';
+import React, { useState, useEffect } from 'react';
 
 function App() {
+
+  const [options, setOptions] = useState({
+    chart: {
+      id: 'basic-bar'
+    },
+    xaxis:{
+      categories: [1991, 1992, 1993, 1994, 1995],
+    }
+  })
+  const [series, setSeries] = useState([
+    {
+      name: 'a',
+      data: [10, 20, 30, 40, 50]
+    },
+    {
+      name: 'b',
+      data: [55, 45, 35, 25, 15]
+    }
+  ])
+
+  useEffect(() => {
+    const sDate = new Date()
+    const day = sDate.getDate() - 7
+    sDate.setDate(day)
+    // const startDateStr = sDate.getFullYear() + '-' + (sDate.getMonth()+1) + '-' +sDate.getDate()
+    // const startDateStr = sDate.toDateString().slice(0,10)
+    const startDateStr = sDate.toISOString().slice(0,10) //the best one so far
+    alert(startDateStr)
+
+    fetch('https://www.melivecode.com/api/pets/7days/'+ startDateStr) //https://www.melivecode.com/api/pets/7days/2023-01-01 para ver los datos de los años anteriores
+      .then(res => res.json())
+      .then((result) => {
+        setOptions({
+          ...options,
+          xaxis: {
+            categories: result.categories
+          }
+        })
+        setSeries(result.series)
+      })
+  }, [])
 
   const [state] = useState({
     
@@ -366,7 +408,8 @@ function App() {
       zoom: {
         enabled: false
       },
-      background: '#19294D',
+      background: '#181933',
+      foreColor: '#F1F1F1'
     },
     dataLabels: {
       enabled: false
@@ -375,9 +418,9 @@ function App() {
       curve: 'straight'
     },
     markers: {
-      size: 5,
+      size: 4,
       hover: {
-        size: 9
+        size: 7
       }
     },
     title: {
@@ -388,8 +431,10 @@ function App() {
       },  
     },
     grid: {
+      show: true,
+      strokeDashArray: 5,
       row: {
-        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+        colors: ['#5B6A80', 'transparent'],
         opacity: 0.5
       },
     },
@@ -406,6 +451,7 @@ function App() {
         },
       },
       forceNiceScale: true,
+      tickAmount: 10,
       max: 110,
       min: 0,
     },
@@ -416,25 +462,13 @@ function App() {
           color: '#FFFFFF',
         },
       },
-      labels: {
-        style: {
-          color: ['#FFFFFF']
-        },
-      },
-      axisBorder: {
-          show: true,
-          color: '##F1F1F1',
-          offsetX: 0,
-          offsetY: 0
-      },
-      categories: ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
       forceNiceScale: true,
-      max: 100,
+      tickAmount: 10,
+      max: 110,
       min: 0,
     }
   },
 });
-
 
   return (
     <div className="App">
@@ -442,30 +476,44 @@ function App() {
       <br/>
       <br/>
       <div class="container">
+
+      <Chart
+        options={options}
+        series={series}
+        type='bar'
+        height={380}
+        width={950}
+      />
       <ReactApexChart 
         options={state.options} 
         series={state.series} 
         type="line" 
         height={380}
         width={950}/>
+
         <br/>
         <br/>
+
         <ReactApexChart 
         options={state1.options} 
         series={state1.series} 
         type="bar" 
         height={600}
         width={950}/>
+
         <br/>
         <br/>
+
         <ReactApexChart 
         options={state2.options} 
         series={state2.series} 
         type="bar" 
         height={500}
         width={950}/>
+
         <br/>
         <br/>
+
         <ReactApexChart 
         options={state3.options} 
         series={state3.series} 
@@ -476,6 +524,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
