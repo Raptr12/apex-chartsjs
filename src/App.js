@@ -257,6 +257,13 @@ function App() {
           colors: ['#DFDFDF']
         },
         formatter: function (val) {
+          var val = Math.abs(val)
+          if (val >= 1000000) {
+            val = (val / 1000000).toLocaleString("en-US", {maximumFractionDigits: 2}) + ' M'
+          }
+          else if (val >= 1000) {
+            val = (val / 1000).toLocaleString("en-US", {maximumFractionDigits: 2})+ ' K'
+          }
           return val
         },
         background : {
@@ -299,10 +306,25 @@ function App() {
                       'Argentina',
                       'Corea del Sur'
         ],
+        labels: {
+          show: true,
+          hideOverlappingLabels: false,
+          rotate: -35,
+        }
       },
       yaxis: {
         labels: {
-          show: true
+          show: true,
+          formatter: function (val) {
+            var val = Math.abs(val)
+            if (val >= 1000000) {
+              val = (val / 1000000).toLocaleString("en-US", {maximumFractionDigits: 2}) + ' M'
+            }
+            else if (val >= 1000) {
+              val = (val / 1000).toLocaleString("en-US", {maximumFractionDigits: 2})+ ' K'
+            }
+            return val
+          }
         }
       },
       legend: {
@@ -336,12 +358,8 @@ function App() {
   return (
     <div className="App">
       <h1>React Apex Chart</h1>
-
       <br/>
       <br/>
-      <div>
-        
-      </div>
       <div class="container">
       <ReactApexChart 
         options={state.options} 
