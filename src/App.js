@@ -31,7 +31,7 @@ function App() {
     // const startDateStr = sDate.getFullYear() + '-' + (sDate.getMonth()+1) + '-' +sDate.getDate()
     // const startDateStr = sDate.toDateString().slice(0,10)
     const startDateStr = sDate.toISOString().slice(0,10) //the best one so far
-    alert(startDateStr)
+    // alert(startDateStr)
 
     fetch('https://www.melivecode.com/api/pets/7days/'+ startDateStr) //https://www.melivecode.com/api/pets/7days/2023-01-01 para ver los datos de los años anteriores
       .then(res => res.json())
@@ -224,18 +224,6 @@ function App() {
                       'Argentina',
                       'Corea del Sur'
         ],
-        labels: {
-          formatter: function (val) {
-            var val = Math.abs(val)
-            if (val >= 1000000) {
-              val = (val / 1000000).toLocaleString("en-US", {maximumFractionDigits: 2}) + ' M'
-            }
-            else if (val >= 1000) {
-              val = (val / 1000).toLocaleString("en-US", {maximumFractionDigits: 2})+ ' K'
-            }
-            return val
-          },
-        }
       },
       yaxis: {
         labels: {
@@ -400,75 +388,312 @@ function App() {
     series: [{
       name: "Fan Curve Point",
       data: [[30, 35], [47, 50], [62, 60], [75, 80], [90, 100], [105, 100]]
-  }],
-  options: {
-    chart: {
-      height: 350,
-      type: 'area',
-      zoom: {
+    }],
+    options: {
+      chart: {
+        height: 350,
+        type: 'area',
+        zoom: {
+          enabled: false
+        },
+        background: '#181933',
+        foreColor: '#F1F1F1'
+      },
+      dataLabels: {
         enabled: false
       },
-      background: '#181933',
-      foreColor: '#F1F1F1'
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: 'straight'
-    },
-    markers: {
-      size: 4,
-      hover: {
-        size: 7
+      stroke: {
+        curve: 'straight'
+      },
+      markers: {
+        size: 4,
+        hover: {
+          size: 7
+        }
+      },
+      title: {
+        text: 'PC Fan Speed vs Temperature',
+        align: 'center',
+        style: {
+          color: '#FFFFFF',
+        },  
+      },
+      grid: {
+        show: true,
+        strokeDashArray: 5,
+        row: {
+          colors: ['#5B6A80', 'transparent'],
+          opacity: 0.5
+        },
+      },
+      xaxis: {
+        title: {
+          text: 'Temperature',
+          style: {
+            color: '#FFFFFF',
+          },
+        },
+        labels: {
+          style: {
+            color: ['#FFFFFF']
+          },
+        },
+        forceNiceScale: true,
+        tickAmount: 10,
+        max: 110,
+        min: 0,
+      },
+      yaxis: {
+        title: {
+          text: 'Fan Speed',
+          style: {
+            color: '#FFFFFF',
+          },
+        },
+        forceNiceScale: true,
+        tickAmount: 10,
+        max: 110,
+        min: 0,
       }
-    },
-    title: {
-      text: 'PC Fan Speed vs Temperature',
-      align: 'center',
-      style: {
-        color: '#FFFFFF',
-      },  
-    },
-    grid: {
-      show: true,
-      strokeDashArray: 5,
-      row: {
-        colors: ['#5B6A80', 'transparent'],
-        opacity: 0.5
-      },
-    },
-    xaxis: {
-      title: {
-        text: 'Temperature',
-        style: {
-          color: '#FFFFFF',
-        },
-      },
-      labels: {
-        style: {
-          color: ['#FFFFFF']
-        },
-      },
-      forceNiceScale: true,
-      tickAmount: 10,
-      max: 110,
-      min: 0,
-    },
-    yaxis: {
-      title: {
-        text: 'Fan Speed',
-        style: {
-          color: '#FFFFFF',
-        },
-      },
-      forceNiceScale: true,
-      tickAmount: 10,
-      max: 110,
-      min: 0,
     }
-  },
-});
+  });
+  const [state4] = useState({
+    series: [{
+      data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
+    }],
+    options: {
+      chart: {
+        height: 350,
+        type: "bar"
+      },
+      annotations: {
+        xaxis: [
+          {
+            x: "South Korea",
+            borderColor: "#7E7E7E",
+            strokeDashArray: 4,
+            offsetX: -36,
+            offsetY: 100,
+            label: {
+              textAnchor: "middle",
+              position: "bottom",
+              borderColor: "#fff",
+              orientation: 'horizontal',
+              offsetX: 0,
+              offsetY: 100,
+              style: {
+                fontSize: "10px",
+                color: "#333"
+              },
+              text: "Label A"
+            }
+          },
+          {
+            x: "Netherlands",
+            borderColor: "#7E7E7E",
+            strokeDashArray: 4,
+            offsetX: -36,
+            offsetY: 100,
+            label: {
+              textAnchor: "middle",
+              position: "bottom",
+              borderColor: "#fff",
+              orientation: 'horizontal',
+              offsetX: 0,
+              offsetY: 100,
+              style: {
+                fontSize: "10px",
+                color: "#333"
+              },
+              text: "Label B"
+            }
+          },
+          {
+            x: "United States",
+            borderColor: "#7E7E7E",
+            strokeDashArray: 4,
+            offsetX: -36,
+            offsetY: 100,
+            label: {
+              textAnchor: "middle",
+              position: "bottom",
+              borderColor: "#fff",
+              orientation: 'horizontal',
+              offsetX: 0,
+              offsetY: 100,
+              style: {
+                fontSize: "10px",
+                color: "#333"
+              },
+              text: "Label C"
+            }
+          }
+        ]
+      },
+      plotOptions: {
+        bar: {
+          distributed: false,
+          horizontal: false,
+          dataLabels: {
+            position: 'top'
+          },
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        position: 'top', // top, center, bottom
+        offsetY: -20,
+        orientation: 'horizontal',
+        style: {
+          colors: ['#DFDFDF']
+        },
+        background : {
+          enabled: true,
+          foreColor: ['#5F5F5F'],
+          padding: 4,
+          opacity: 1,
+          borderRadius: 2,
+        },
+      },
+      xaxis: {
+        categories: [
+          "South Korea",
+          "Canada",
+          "United Kingdom",
+          "Netherlands",
+          "Italy",
+          "France",
+          "Japan",
+          "United States",
+          "China",
+          "Germany"
+        ],
+        labels :{
+          rotate: -90,
+        }
+      },
+      yaxis: {
+        labels: {
+          minWidth: 200,
+          maxWidth: 200
+        }
+      }
+    }
+  });
+  const [state5] = useState({
+    series: [{
+      data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
+    }],
+    options: {
+      chart: {
+        height: 350,
+        type: "bar"
+      },
+      annotations: {
+        yaxis: [
+          {
+            y: "South Korea",
+            borderColor: "#7E7E7E",
+            offsetX: -210,
+            offsetY: -29,
+            label: {
+              textAnchor: "start",
+              position: "left",
+              borderColor: "#fff",
+              offsetX: -200,
+              offsetY: -1,
+              style: {
+                fontSize: "10px",
+                color: "#333"
+              },
+              text: "Label A"
+            }
+          },
+          {
+            y: "Netherlands",
+            borderColor: "#7E7E7E",
+            offsetX: -210,
+            offsetY: -29,
+            label: {
+              textAnchor: "start",
+              position: "left",
+              borderColor: "#fff",
+              offsetX: -200,
+              offsetY: -1,
+              style: {
+                fontSize: "10px",
+                color: "#333"
+              },
+              text: "Label B"
+            }
+          },
+          {
+            y: "United States",
+            borderColor: "#7E7E7E",
+            offsetX: -210,
+            offsetY: -29,
+            label: {
+              textAnchor: "start",
+              position: "left",
+              borderColor: "#fff",
+              offsetX: -200,
+              offsetY: -1,
+              style: {
+                fontSize: "10px",
+                color: "#333"
+              },
+              text: "Label C"
+            }
+          }
+        ]
+      },
+      plotOptions: {
+        bar: {
+          distributed: false,
+          horizontal: true,
+          dataLabels: {
+            position: 'top'
+          },
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        position: 'top', // top, center, bottom
+        offsetX: 60,
+        orientation: 'horizontal',
+        style: {
+          colors: ['#DFDFDF']
+        },
+        background : {
+          enabled: true,
+          foreColor: ['#5F5F5F'],
+          padding: 4,
+          opacity: 1,
+          borderRadius: 2,
+        },
+      },
+      xaxis: {
+        categories: [
+          "South Korea",
+          "Canada",
+          "United Kingdom",
+          "Netherlands",
+          "Italy",
+          "France",
+          "Japan",
+          "United States",
+          "China",
+          "Germany"
+        ]
+      },
+      yaxis: {
+        labels: {
+          minWidth: 200,
+          maxWidth: 200
+        }
+      }
+    }
+  });
 
   return (
     <div className="App">
@@ -476,7 +701,24 @@ function App() {
       <br/>
       <br/>
       <div class="container">
+      <ReactApexChart 
+        options={state5.options} 
+        series={state5.series} 
+        type="bar" 
+        height={600}
+        width={950}/>
 
+        <br/>
+        <br/>
+      <ReactApexChart 
+        options={state4.options} 
+        series={state4.series} 
+        type="bar" 
+        height={600}
+        width={950}/>
+
+        <br/>
+        <br/>
       <Chart
         options={options}
         series={series}
